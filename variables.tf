@@ -39,8 +39,8 @@ EOT
     name                                = string
     resource_group_name                 = string
     allowed_authentication_modes        = optional(set(string))
-    pool_allocation_mode                = optional(string, "BatchService")
-    public_network_access_enabled       = optional(bool, true)
+    pool_allocation_mode                = optional(string) # Default: "BatchService"
+    public_network_access_enabled       = optional(bool)   # Default: true
     storage_account_authentication_mode = optional(string)
     storage_account_id                  = optional(string)
     storage_account_node_identity       = optional(string)
@@ -58,16 +58,16 @@ EOT
     }))
     network_profile = optional(object({
       account_access = optional(object({
-        default_action = optional(string, "Deny")
+        default_action = optional(string) # Default: "Deny"
         ip_rule = optional(object({
-          action   = optional(string, "Allow")
+          action   = optional(string) # Default: "Allow"
           ip_range = string
         }))
       }))
       node_management_access = optional(object({
-        default_action = optional(string, "Deny")
+        default_action = optional(string) # Default: "Deny"
         ip_rule = optional(object({
-          action   = optional(string, "Allow")
+          action   = optional(string) # Default: "Allow"
           ip_range = string
         }))
       }))
