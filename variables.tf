@@ -73,5 +73,77 @@ EOT
       }))
     }))
   }))
+  # --- Unconfirmed validation candidates, derived from azurerm_batch_account's provider source ---
+  # Not auto-enabled: either a bespoke provider validator we can't safely translate,
+  # or a path that crosses a list-typed block (needs its own for_each wrapping).
+  # Review, translate into a real validation{} block above, and delete once confirmed.
+  # path: name
+  #   source:    [from validate.AccountName] !regexp.MustCompile(`^[a-z0-9]+$`).MatchString(value)
+  # path: name
+  #   source:    [from validate.AccountName] 3 > len(value)
+  # path: name
+  #   condition: length(value) <= 24
+  #   message:   [from validate.AccountName: invalid when len(value) > 24]
+  #   source:    [from validate.AccountName: invalid when len(value) > 24]
+  # path: resource_group_name
+  #   condition: length(value) <= 90
+  #   message:   [from resourcegroups.ValidateName: invalid when len(value) > 90]
+  #   source:    [from resourcegroups.ValidateName: invalid when len(value) > 90]
+  # path: resource_group_name
+  #   condition: !endswith(value, ".")
+  #   message:   [from resourcegroups.ValidateName: must not end with "."]
+  #   source:    [from resourcegroups.ValidateName: must not end with "."]
+  # path: resource_group_name
+  #   condition: length(value) != 0
+  #   message:   [from resourcegroups.ValidateName: invalid when len(value) == 0]
+  #   source:    [from resourcegroups.ValidateName: invalid when len(value) == 0]
+  # path: resource_group_name
+  #   source:    [from resourcegroups.ValidateName] !matched
+  # path: location
+  #   source:    location.EnhancedValidate: no recognizable `if ... { errors = append(...) }` pattern - read it by hand
+  # path: storage_account_id
+  #   source:    [from commonids.ValidateStorageAccountID] !ok
+  # path: storage_account_id
+  #   source:    [from commonids.ValidateStorageAccountID] err != nil
+  # path: storage_account_authentication_mode
+  #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
+  # path: storage_account_node_identity
+  #   source:    [from commonids.ValidateUserAssignedIdentityID] !ok
+  # path: storage_account_node_identity
+  #   source:    [from commonids.ValidateUserAssignedIdentityID] err != nil
+  # path: allowed_authentication_modes[*]
+  #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
+  # path: pool_allocation_mode
+  #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
+  # path: key_vault_reference.id
+  #   source:    [from azure.ValidateResourceID] !ok
+  # path: key_vault_reference.id
+  #   source:    [from azure.ValidateResourceID] err != nil
+  # path: key_vault_reference.url
+  #   source:    validation.IsURLWithHTTPS(...) - no translation rule yet, add one
+  # path: identity.type
+  #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
+  # path: identity.identity_ids[*]
+  #   source:    [from commonids.ValidateUserAssignedIdentityID] !ok
+  # path: identity.identity_ids[*]
+  #   source:    [from commonids.ValidateUserAssignedIdentityID] err != nil
+  # path: encryption.key_vault_key_id
+  #   source:    [from keyvault.ValidateNestedItemID] !ok
+  # path: encryption.key_vault_key_id
+  #   source:    [from keyvault.ValidateNestedItemID] err != nil
+  # path: tags
+  #   condition: length(value) <= 50
+  #   message:   [from tags.Validate: invalid when len(value) > 50]
+  #   source:    [from tags.Validate: invalid when len(value) > 50]
+  # path: tags
+  #   condition: length(value) <= 512
+  #   message:   [from tags.Validate: invalid when len(value) > 512]
+  #   source:    [from tags.Validate: invalid when len(value) > 512]
+  # path: tags
+  #   source:    [from tags.Validate] err != nil
+  # path: tags
+  #   condition: length(value) <= 256
+  #   message:   [from tags.Validate: invalid when len(value) > 256]
+  #   source:    [from tags.Validate: invalid when len(value) > 256]
 }
 
