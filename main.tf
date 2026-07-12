@@ -43,7 +43,7 @@ resource "azurerm_batch_account" "batch_accounts" {
         content {
           default_action = account_access.value.default_action
           dynamic "ip_rule" {
-            for_each = account_access.value.ip_rule != null ? [account_access.value.ip_rule] : []
+            for_each = account_access.value.ip_rule != null ? account_access.value.ip_rule : []
             content {
               action   = ip_rule.value.action
               ip_range = ip_rule.value.ip_range
@@ -56,7 +56,7 @@ resource "azurerm_batch_account" "batch_accounts" {
         content {
           default_action = node_management_access.value.default_action
           dynamic "ip_rule" {
-            for_each = node_management_access.value.ip_rule != null ? [node_management_access.value.ip_rule] : []
+            for_each = node_management_access.value.ip_rule != null ? node_management_access.value.ip_rule : []
             content {
               action   = ip_rule.value.action
               ip_range = ip_rule.value.ip_range

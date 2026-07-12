@@ -59,17 +59,17 @@ EOT
     network_profile = optional(object({
       account_access = optional(object({
         default_action = optional(string) # Default: "Deny"
-        ip_rule = optional(object({
+        ip_rule = optional(list(object({
           action   = optional(string) # Default: "Allow"
           ip_range = string
-        }))
+        })))
       }))
       node_management_access = optional(object({
         default_action = optional(string) # Default: "Deny"
-        ip_rule = optional(object({
+        ip_rule = optional(list(object({
           action   = optional(string) # Default: "Allow"
           ip_range = string
-        }))
+        })))
       }))
     }))
   }))
