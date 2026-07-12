@@ -1,3 +1,7 @@
+output "batch_accounts_id" {
+  description = "Map of id values across all batch_accounts, keyed the same as var.batch_accounts"
+  value       = { for k, v in azurerm_batch_account.batch_accounts : k => v.id }
+}
 output "batch_accounts_account_endpoint" {
   description = "Map of account_endpoint values across all batch_accounts, keyed the same as var.batch_accounts"
   value       = { for k, v in azurerm_batch_account.batch_accounts : k => v.account_endpoint }
