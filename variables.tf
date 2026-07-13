@@ -14,7 +14,7 @@ Optional:
     - storage_account_node_identity
     - tags
     - encryption (block):
-        - key_vault_key_id (required)
+        - key_vault_key_id (optional)
     - identity (block):
         - identity_ids (optional)
         - type (required)
@@ -39,15 +39,15 @@ EOT
     name                                = string
     resource_group_name                 = string
     allowed_authentication_modes        = optional(set(string))
-    pool_allocation_mode                = optional(string) # Default: "BatchService"
-    public_network_access_enabled       = optional(bool)   # Default: true
+    pool_allocation_mode                = optional(string)
+    public_network_access_enabled       = optional(bool)
     storage_account_authentication_mode = optional(string)
     storage_account_id                  = optional(string)
     storage_account_node_identity       = optional(string)
     tags                                = optional(map(string))
-    encryption = optional(object({
-      key_vault_key_id = string
-    }))
+    encryption = optional(list(object({
+      key_vault_key_id = optional(string)
+    })))
     identity = optional(object({
       identity_ids = optional(set(string))
       type         = string
@@ -58,16 +58,16 @@ EOT
     }))
     network_profile = optional(object({
       account_access = optional(object({
-        default_action = optional(string) # Default: "Deny"
+        default_action = optional(string)
         ip_rule = optional(list(object({
-          action   = optional(string) # Default: "Allow"
+          action   = optional(string)
           ip_range = string
         })))
       }))
       node_management_access = optional(object({
-        default_action = optional(string) # Default: "Deny"
+        default_action = optional(string)
         ip_rule = optional(list(object({
-          action   = optional(string) # Default: "Allow"
+          action   = optional(string)
           ip_range = string
         })))
       }))
@@ -114,6 +114,18 @@ EOT
   # path: allowed_authentication_modes[*]
   #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
   # path: pool_allocation_mode
+  #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
+  # path: network_profile.account_access.default_action
+  #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
+  # path: network_profile.account_access.ip_rule.ip_range
+  #   source:    [from validate.BatchAccountIpRange] re != nil && !re.MatchString(value)
+  # path: network_profile.account_access.ip_rule.action
+  #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
+  # path: network_profile.node_management_access.default_action
+  #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
+  # path: network_profile.node_management_access.ip_rule.ip_range
+  #   source:    [from validate.BatchAccountIpRange] re != nil && !re.MatchString(value)
+  # path: network_profile.node_management_access.ip_rule.action
   #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
   # path: key_vault_reference.id
   #   source:    [from azure.ValidateResourceID] !ok
