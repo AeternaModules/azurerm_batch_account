@@ -16,11 +16,11 @@ output "batch_accounts_encryption" {
 }
 output "batch_accounts_identity" {
   description = "Map of identity values across all batch_accounts, keyed the same as var.batch_accounts"
-  value       = { for k, v in azurerm_batch_account.batch_accounts : k => v.identity if v.identity != null && length(v.identity) > 0 }
+  value       = { for k, v in azurerm_batch_account.batch_accounts : k => one(v.identity) if v.identity != null && length(v.identity) > 0 }
 }
 output "batch_accounts_key_vault_reference" {
   description = "Map of key_vault_reference values across all batch_accounts, keyed the same as var.batch_accounts"
-  value       = { for k, v in azurerm_batch_account.batch_accounts : k => v.key_vault_reference if v.key_vault_reference != null && length(v.key_vault_reference) > 0 }
+  value       = { for k, v in azurerm_batch_account.batch_accounts : k => one(v.key_vault_reference) if v.key_vault_reference != null && length(v.key_vault_reference) > 0 }
 }
 output "batch_accounts_location" {
   description = "Map of location values across all batch_accounts, keyed the same as var.batch_accounts"
@@ -32,7 +32,7 @@ output "batch_accounts_name" {
 }
 output "batch_accounts_network_profile" {
   description = "Map of network_profile values across all batch_accounts, keyed the same as var.batch_accounts"
-  value       = { for k, v in azurerm_batch_account.batch_accounts : k => v.network_profile if v.network_profile != null && length(v.network_profile) > 0 }
+  value       = { for k, v in azurerm_batch_account.batch_accounts : k => one(v.network_profile) if v.network_profile != null && length(v.network_profile) > 0 }
 }
 output "batch_accounts_pool_allocation_mode" {
   description = "Map of pool_allocation_mode values across all batch_accounts, keyed the same as var.batch_accounts"
